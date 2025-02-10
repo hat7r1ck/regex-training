@@ -50,3 +50,9 @@ It will create a zip file in your Downloads folder named **RegexPractice.zip**, 
 - When testing regex patterns, do not upload sensitive or internal data to third-party platforms like `regex101[.]com`. 
 - Always sanitize data or use internal tools to ensure security protocols are maintained.
 
+---
+## Regex Training Resources
+- [Google RE2 Wiki](https://github.com/google/re2/wiki)
+- [Mastering Regular Expressions](https://www.oreilly.com/library/view/mastering-regular-expressions/0596528124/ch04.html#:~:text=As%20a%20result%2C%20broadly%20speaking,%2C%20Python%2C%20.%20.%20.%20)
+- [New to Google SecOps: Matching with Regular Expression Functions](https://www.googlecloudcommunity.com/gc/Community-Blog/New-to-Google-SecOps-Matching-with-Regular-Expression-Functions/ba-p/724857)
+- [Splunk Cheat Sheet: Query, SPL, RegEx, & Commands](https://www.splunk.com/en_us/blog/learn/splunk-cheat-sheet-query-spl-regex-commands.html)
