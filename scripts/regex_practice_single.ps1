@@ -1,19 +1,21 @@
 # PowerShell Script to Generate Regex Practice File from User Input
 
-# Prompt the user for their first and last name
+# Prompt user for first and last name
 $firstName = Read-Host "Enter your first name"
 $lastName = Read-Host "Enter your last name"
 
-# Normalize input: remove extra spaces and convert to lowercase
-$firstName = ($firstName.Trim()).ToLower()
-$lastName = ($lastName.Trim()).ToLower()
+# Convert names to lowercase and strip spaces
+$firstName = $firstName.Trim().ToLower()
+$lastName = $lastName.Trim().ToLower()
+
+# Define the output file path
+$downloadsPath = [Environment]::GetFolderPath('UserProfile') + '\Downloads'
+$outputFile = "$downloadsPath\RegexPractice.txt"
+
+# Create variations of the name (first name, last name, initials, etc.)
 $initials = "$($firstName.Substring(0,1))$($lastName.Substring(0,1))"
 
-# Define output file location in Downloads folder
-$downloadsPath = [Environment]::GetFolderPath('UserProfile') + '\Downloads'
-$filePath = Join-Path $downloadsPath "RegexPractice.txt"
-
-# Generate name variations for regex practice
+# Add number variations for practicing quantifiers
 $randomNumbers = @(
     "$firstName$lastName123",
     "$firstName$lastName5678",
@@ -29,16 +31,16 @@ $variations = @(
     "$initials",
     "$firstName-$lastName",
     "$lastName$firstName"
-) + $randomNumbers
+) + $randomNumbers  # Ensure random numbers are correctly added here
 
 # Create the answer regex and encode it in Base64
 $answerRegex = "($firstName[ .,-]?$lastName|$lastName[ ,]?$firstName|$initials|$lastName$firstName|$firstName$lastName\d{1,4})"
 $encodedAnswer = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($answerRegex))
 
-# Add the Base64-encoded answer at the end of the file
+# Add encoded answer to the file
 $variations += "`nAnswer (Base64 Encoded): $encodedAnswer"
 
-# Write the variations to the text file
-$variations | Set-Content -Path $filePath
+# Write variations to the file
+$variations | Set-Content -Path $outputFile
 
-Write-Output "Regex practice file created at: $filePath"
+Write-Output "Practice file created at: $outputFile"
