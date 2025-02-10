@@ -55,8 +55,7 @@ foreach ($line in $allVariations) {
 #   2. "$lastName" optionally followed by one of [ ,] and then "$firstName"
 #   3. The initials
 #   4. "$lastName$firstName"
-#   5. "$firstName$lastName" followed by 1 to 4 digits
-$answerRegex = "($firstName[ .,-]?$lastName|$lastName[ ,]?$firstName|$initials|$lastName$firstName|$firstName$lastName\d{1,4})"
+#   5. "$firstName$lastName" followed by 1 to 4 digits$answerRegex = "($firstName[ .,-]?$lastName|$lastName(?:,\s?)?$firstName|$initials|$lastName$firstName|$firstName$lastName\d{1,4})"
 
 # Encode the answer regex in Base64
 $encodedAnswer = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($answerRegex))
