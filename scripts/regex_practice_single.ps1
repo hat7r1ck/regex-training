@@ -33,17 +33,17 @@ $variations = @(
     "$lastName$firstName"
 )
 
-# Combine all variations into a single array
+# Combine all variations
 $allVariations = $variations + $randomNumbers
+
+# Write each variation to a new line
+$allVariations | ForEach-Object { $_ | Out-File -FilePath $outputFile -Append }
 
 # Create the answer regex and encode it in Base64
 $answerRegex = "($firstName[ .,-]?$lastName|$lastName[ ,]?$firstName|$initials|$lastName$firstName|$firstName$lastName\d{1,4})"
 $encodedAnswer = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($answerRegex))
 
-# Add encoded answer to the variations array
-$allVariations += "`nAnswer (Base64 Encoded): $encodedAnswer"
-
-# Write variations to the file, ensuring each entry is on a new line
-$allVariations | ForEach-Object { Add-Content -Path $outputFile -Value $_ }
+# Add the Base64 encoded answer on a new line
+"`nAnswer (Base64 Encoded): $encodedAnswer" | Out-File -FilePath $outputFile -Append
 
 Write-Output "Practice file created at: $outputFile"
