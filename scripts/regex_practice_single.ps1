@@ -13,14 +13,14 @@ $downloadsPath = [Environment]::GetFolderPath('UserProfile') + '\Downloads'
 $outputFile = "$downloadsPath\RegexPractice.txt"
 
 # Create variations of the name (first name, last name, initials, etc.)
-$initials = "$($firstName.Substring(0,1))$($lastName.Substring(0,1))"
+$initials = if ($lastName) { "$($firstName.Substring(0,1))$($lastName.Substring(0,1))" } else { "$($firstName.Substring(0,1))" }
 
 # Add number variations for practicing quantifiers
 $randomNumbers = @(
-    "$firstName$lastName123",
-    "$firstName$lastName5678",
-    "$firstName$lastName42",
-    "$firstName$lastName9"
+    "$firstName$lastName" + "123",
+    "$firstName$lastName" + "5678",
+    "$firstName$lastName" + "42",
+    "$firstName$lastName" + "9"
 )
 
 $variations = @(
@@ -31,16 +31,19 @@ $variations = @(
     "$initials",
     "$firstName-$lastName",
     "$lastName$firstName"
-) + $randomNumbers  # Ensure random numbers are correctly added here
+)
+
+# Combine all variations into a single array
+$allVariations = $variations + $randomNumbers
 
 # Create the answer regex and encode it in Base64
 $answerRegex = "($firstName[ .,-]?$lastName|$lastName[ ,]?$firstName|$initials|$lastName$firstName|$firstName$lastName\d{1,4})"
 $encodedAnswer = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($answerRegex))
 
-# Add encoded answer to the file
-$variations += "`nAnswer (Base64 Encoded): $encodedAnswer"
+# Add encoded answer to the variations array
+$allVariations += "`nAnswer (Base64 Encoded): $encodedAnswer"
 
-# Write variations to the file
-$variations | Set-Content -Path $outputFile
+# Write variations to the file, ensuring each entry is on a new line
+$allVariations | ForEach-Object { Add-Content -Path $outputFile -Value $_ }
 
 Write-Output "Practice file created at: $outputFile"
