@@ -17,12 +17,13 @@ $initials = if ($lastName) { "$($firstName.Substring(0,1))$($lastName.Substring(
 
 # Add number variations for practicing quantifiers
 $randomNumbers = @(
-    "$firstName$lastName" + "123",
-    "$firstName$lastName" + "5678",
-    "$firstName$lastName" + "42",
-    "$firstName$lastName" + "9"
+    "$firstName$lastName123",
+    "$firstName$lastName5678",
+    "$firstName$lastName42",
+    "$firstName$lastName9"
 )
 
+# Create the full list of variations
 $variations = @(
     "$firstName $lastName",
     "$lastName, $firstName",
@@ -33,17 +34,17 @@ $variations = @(
     "$lastName$firstName"
 )
 
-# Combine all variations
+# Combine variations with random numbers
 $allVariations = $variations + $randomNumbers
 
-# Write each variation to a new line
-$allVariations | ForEach-Object { $_ | Out-File -FilePath $outputFile -Append }
+# Write variations to the file, ensuring proper line breaks
+$allVariations | Set-Content -Path $outputFile -Encoding UTF8
 
-# Create the answer regex and encode it in Base64
+# Create the answer regex and encode it in Base64 (no extra spaces)
 $answerRegex = "($firstName[ .,-]?$lastName|$lastName[ ,]?$firstName|$initials|$lastName$firstName|$firstName$lastName\d{1,4})"
 $encodedAnswer = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($answerRegex))
 
-# Add the Base64 encoded answer on a new line
-"`nAnswer (Base64 Encoded): $encodedAnswer" | Out-File -FilePath $outputFile -Append
+# Add the Base64 encoded answer on a **new line**
+Add-Content -Path $outputFile -Value "`nAnswer (Base64 Encoded): $encodedAnswer"
 
 Write-Output "Practice file created at: $outputFile"
