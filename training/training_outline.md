@@ -47,7 +47,6 @@ Just like cars have different engines (electric vs. gasoline), regex engines com
    - **Characteristics**: Combines benefits of both DFA and NFA for optimized matching.
    - **Examples**: GNU awk, GNU grep/egrep, Tcl.
 
----
 ### Lazy & Greedy
 
 Lazy Quantifiers aim to match the fewest occurrences of a pattern, unlike greedy quantifiers that match as many as possible.
