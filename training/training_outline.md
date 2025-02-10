@@ -47,6 +47,15 @@ Just like cars have different engines (electric vs. gasoline), regex engines com
    - **Characteristics**: Combines benefits of both DFA and NFA for optimized matching.
    - **Examples**: GNU awk, GNU grep/egrep, Tcl.
 
+---
+Lazy Quantifiers aim to match the fewest occurrences of a pattern, unlike greedy quantifiers that match as many as possible.
+- Usage: Add a question mark (?) after a quantifier to make it lazy (e.g., a*? matches as few “a”s as possible).
+- Also known as: Non-greedy, reluctant, or minimal quantifiers.
+
+Example:
+- Greedy: a+ matches all “a”s in “aaaaa”.
+- Lazy: a+? matches only the first “a” in “aaaaa”
+
 ### Regex Flavors and Engines
 
 Different tools and platforms use varying regex engines and flavors:
